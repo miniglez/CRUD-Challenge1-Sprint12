@@ -1,0 +1,14 @@
+
+GET http://localhost:3000/usuarios
+###
+
+GET http://localhost:3000/usuarios/Chun-Li
+###
+
+PUT http://localhost:3000/usuarios/Ryu%20Ryuu
+###
+
+DELETE http://localhost:3000/usuarios/Ryu
+###
+
+DELETE  http://localhost:3000/usuarios/Chun-Li

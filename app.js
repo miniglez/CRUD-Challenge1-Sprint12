@@ -22,11 +22,22 @@ app.get("/", (req, res) => {
                 ${usuarios.map(personaje => `<li>ID: ${personaje.id} | Nombre: ${personaje.nombre}</li>`).join("")}
             </ul>
             <form action="/usuarios" method="post">
-                <label for="Personaje">Personaje</label>
+                <label for="Personaje">Añadir personaje</label>
                 Nombre: <input type="text" id="nombre" name="nombre" required><br>
                 Edad: <input type="number" id="edad" name="edad" required><br>
                 Procedencia: <input type="text" id="lugarProcedencia" name="procedencia" required><br>
                 <button type="submit">Agregar personaje</button>
+            </form>
+            <form action="/usuarios" method="put">
+                <label for"Personaje">modificar personaje</label>
+                Nombre personaje a modificar: <input type="text" id="nombre" name="nombre" required><br>
+                Nombre modificado: <input type="text" id="nombreMod" name="nombreMod" required>
+                <button type="submit">Modificar personaje</button> 
+            </form>
+            <form action="/usuarios" method="delete">
+                <label for"Personaje">modificar personaje</label>
+                Nombre personaje: <input type="text" id="nombre" name="nombre" required><br>
+                <button type="submit">Modificar personaje</button> 
             </form>
         `)
 })
@@ -36,11 +47,16 @@ app.get("/usuarios", (req, res) => {
 })
 
 app.get("/usuarios/:nombre", (req, res) => {
-    console.log(req.params)
-    const personajes = []
-    personajes.push(usuarios.find(personaje => personaje.nombre === req.params.nombre))
+    const nombre = req.params.nombre
+    const personajes = usuarios.find(personaje => personaje.nombre === nombre)
     console.log(personajes)
-    res.json(personajes)
+    if(personajes.nombre != nombre){
+        res.status(404).json({Mensaje: "Personaje no existe"})
+    }
+    else{
+        res.json(personajes)
+    }
+
 })
 
 app.post("/usuarios", (req, res) => {
@@ -54,6 +70,24 @@ app.post("/usuarios", (req, res) => {
     res.redirect("/")
 })
 
+app.put("/usuarios/:nombre:usMod", (req, res) => {
+    const usuario = req.params.nombre    
+    const usMod = req.params.usMod
+    console.log(usuario)
+    console.log(usMod)
+})
+
+// app.put("/usuarios/:nombre", (req, res) => {
+//     const pjToUpdate = req.params.nombre
+
+// })
+
+app.delete("/usuarios/:nombre", (req, res) => {
+    const nombre = req.params.nombre
+    const pjDelete = usuarios.filter(u => u.nombre != nombre)
+    usuarios = pjDelete
+    res.json(usuarios)
+})
 app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`)
 })
